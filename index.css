@@ -1,0 +1,60 @@
+html,
+body {
+  color: #999;
+  background: #fff;
+  font-size: 16px;
+  font-family: Helvetica,Arial,sans-serif;
+}
+
+h1 {
+  text-align: center;
+  color: #4CAF50;
+  text-transform: uppercase;
+  text-decoration: underline;
+}
+
+button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.center {
+  margin: auto;
+  padding: 10px;
+  width: 20%
+}
+
+table, th, td {
+  border: 1px solid #4CAF50;
+}
+
+table {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  table-layout: fixed;
+  border-collapse: collapse;
+  overflow: hidden;
+}
+
+td {
+  text-align: center;
+  text-overflow: clip;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+tr:nth-child(even){background-color: #f2f2f2;} /* Creates striped table */
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Test</title>
+  <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+
+<body onload = "ajaxRequest()"> <!-- Loads page one automatically -->
+  <h1>List of loaded users</h1>
+
+  <div id="result-list" style="overflow-x:auto;">
+  </div>
+
+  <script type="text/javascript" src="simple-ajax.js"></script>
+  <script type="text/javascript" src="base.js"></script>
+
+  <div class= "center" >
+    <button onclick = "ajaxRequest(1)"> Page 1 </button>
+    <button onclick = "ajaxRequest(2)"> Page 2 </button>
+  </div>
+
+</body>
+</html>
