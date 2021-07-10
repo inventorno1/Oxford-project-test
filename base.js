@@ -9,44 +9,70 @@ var options = {
   }
 }
 
+// Stan: Add a condition that will prevent bringin the page back again if the very same page is currently loaded
 // Performs ajax request for desired page number
 function ajaxRequest(pagenumber = 1) {
   ajax("https://reqres.in/api/users?page=" + pagenumber, options);
 }
 
+// STAN: a simple index object to give correct names, order and type
+var keysToHeading = {
+  avatar: {
+    title: "Avatar",
+    order: 10,
+    type: "image"
+  },
+  email: {
+    title: "E-mail",
+    order: 40,
+    type: "email"
+  },
+  first_name: {
+    title: "First Name",
+    order: 20,
+    type: "string"
+  },
+  last_name: {
+    title: "Last Name",
+    order: 30,
+    type: "string"
+  },
+}
+
 // Processes data in JSON format and puts it into a table
 function ProcessData(data) {
 
-  // Creates a list of column headings
-  var col = [];
-        for (var i = 0; i < data.length; i++) {
-            for (var key in data[i]) {
-                if (col.indexOf(key) === -1) {
-                    col.push(key);
-                }
-            }
-        }
+  // STAN: I like this idea where you can have a flexible number of colsumns!
+  // Creates a list of colsumn headings
+  // STAN: use plurals as it contains multiple elements
+  var cols = [];
+  // Stan: No need for loop, we can just test for length of the array and grab first element
+  if (data.length > 0) {
+    // Stan: try using -
+    // var keys = Object.keys(data[0])
+    // then use forEach method on the keys instead of for in loop
+    for (var key in data[0]) {
+      if (keysToHeading.hasOwnProperty(key)) {
+        cols.push(key);
+      }
+    }
+    // Order data by order value
+    cols.sort(function(firstKey, secondKey) {
+      return keysToHeading[firstKey].order - keysToHeading[secondKey].order
+    })
+  }
 
   var table = document.createElement("table");
 
   var tr = table.insertRow(-1);
 
   // Formats headings properly
-  for (var i = 0; i < col.length; i++) {
+  // STAN: try rewriting this to use forEach array method
+  for (var i = 0; i < cols.length; i++) {
       var th = document.createElement("th");
-      var header = ""
-      if (i == 0) {
-        header = "ID"
-      } else if (i == 1) {
-        header = "Email";
-      } else if (i == 2) {
-        header = "First Name";
-      } else if (i == 3) {
-        header = "Last Name";
-      } else if (i == 4) {
-        header = "Avatar";
-      }
-      th.innerHTML = header;
+      // STAN: Use singluar as your are getting one element from cols
+      var col = cols[i]
+      th.innerHTML = keysToHeading[col].title;
       tr.appendChild(th);
   }
 
@@ -55,10 +81,11 @@ function ProcessData(data) {
 
       tr = table.insertRow(-1);
 
-      for (var j = 0; j < col.length; j++) {
-          var currentData = data[i][col[j]]
+      for (var j = 0; j < cols.length; j++) {
+          var col = cols[j]
+          var currentData = data[i][col]
           var tabCell = tr.insertCell(-1);
-          if (j == 1) {
+          if (keysToHeading[col].type === 'email') {
             // If data is an email, format as href
             var a = document.createElement("a");
             var linkText = document.createTextNode(currentData);
@@ -66,7 +93,7 @@ function ProcessData(data) {
             a.title = currentData;
             a.href = "mailto:" + currentData;
             tabCell.appendChild(a);
-          } else if (j == col.length - 1) {
+          } else if (keysToHeading[col].type === 'image') {
             // If data is an image, format as img
             var x = document.createElement("IMG");
             x.setAttribute("src", String(currentData));
