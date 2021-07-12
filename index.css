@@ -1,6 +1,6 @@
 html,
 body {
-  color: #999;
+  color: gray;
   background: #fff;
   font-size: 16px;
   font-family: Helvetica,Arial,sans-serif;
@@ -14,26 +14,37 @@ h1 {
 }
 
 button {
-  background-color: #4CAF50;
-  border: none;
-  color: white;
+  background-color: white;
+  border: 2px solid #4CAF50;
+  color: gray;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  margin: 4px 2px;
+  margin: 5px 5px;
   cursor: pointer;
+  border-radius: 20px;
+}
+
+button:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+button.clicked {
+  background-color: #4CAF50;
+  color: white;
 }
 
 .center {
-  margin: auto;
-  padding: 10px;
-  width: 20%
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 table, th, td {
-  border: 1px solid #4CAF50;
+  border: 2px solid #4CAF50;
 }
 
 table {
@@ -50,6 +61,7 @@ td {
   text-overflow: clip;
   white-space: nowrap;
   overflow: hidden;
+  height: 150px;
 }
 
 tr:nth-child(even){background-color: #f2f2f2;} /* Creates striped table */

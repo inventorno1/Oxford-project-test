@@ -10,9 +10,27 @@ var options = {
 }
 
 // Stan: Add a condition that will prevent bringin the page back again if the very same page is currently loaded
+// Ethan: added variable to store current page and done!
+var currentPage = 0;
 // Performs ajax request for desired page number
 function ajaxRequest(pagenumber = 1) {
-  ajax("https://reqres.in/api/users?page=" + pagenumber, options);
+  if (pagenumber != currentPage) {
+    currentPage = pagenumber;
+    ajax("https://reqres.in/api/users?page=" + pagenumber, options);
+    changeButton(pagenumber); // Updates button style depending on page loaded
+  }
+}
+
+function changeButton(pagenumber) {
+  var btn1 = document.getElementById("btn1");
+  var btn2 = document.getElementById("btn2");
+  if (pagenumber == 1) {
+    btn1.className = "clicked";
+    btn2.className = "";
+  } else if (pagenumber == 2) {
+    btn1.className = "";
+    btn2.className = "clicked";
+  }
 }
 
 // STAN: a simple index object to give correct names, order and type
@@ -51,11 +69,14 @@ function ProcessData(data) {
     // Stan: try using -
     // var keys = Object.keys(data[0])
     // then use forEach method on the keys instead of for in loop
-    for (var key in data[0]) {
+    // Ethan: done!
+    var keys = Object.keys(data[0])
+    keys.forEach(function columnMaker(key) {
       if (keysToHeading.hasOwnProperty(key)) {
         cols.push(key);
       }
-    }
+    });
+
     // Order data by order value
     cols.sort(function(firstKey, secondKey) {
       return keysToHeading[firstKey].order - keysToHeading[secondKey].order
@@ -68,13 +89,12 @@ function ProcessData(data) {
 
   // Formats headings properly
   // STAN: try rewriting this to use forEach array method
-  for (var i = 0; i < cols.length; i++) {
-      var th = document.createElement("th");
-      // STAN: Use singluar as your are getting one element from cols
-      var col = cols[i]
-      th.innerHTML = keysToHeading[col].title;
-      tr.appendChild(th);
-  }
+  // Ethan: done!
+  cols.forEach(function formatHeadings(col) {
+    var th = document.createElement("th");
+    th.innerHTML = keysToHeading[col].title;
+    tr.appendChild(th);
+  });
 
   // Loops through all data entries and adds to the table
   for (var i = 0; i < data.length; i++) {
